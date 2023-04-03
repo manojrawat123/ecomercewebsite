@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>   
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my.css' %}">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+</head>
+<body>
+    {% comment %} Nav Bar for Big Scren {% endcomment %}
+    <nav class="shadow-2xl xl:block hidden">
+        <div class="flex mx-5"> 
+        <div class="flex">
+            <img src="{% static 'img/logo.jpg' %}" alt="" class="h-[2rem] w-[2rem] rounded-[50%] my-[1rem] inline-block">
+            <h2 class="text-2xl py-[1rem] inline-block">Munna Store</h2>
+            
+            
+        </div>  
+        
+        <div class="flex space-x-9 mx-[3rem] ">
+            <span class="pt-[1.3rem] {{home}} hover:underline hover:text-green-400 "><a href="{% url 'home' %}">Home</a></span>
+            <span class="pt-[1.3rem]  hover:underline hover:text-green-400 dropdown">Electronics 
+                
+            <i class="fa-solid fa-caret-down"></i>
+                <ul class="fixed z-[1000] bg-white p-[2rem] hidden">
+                    <li class="text-black hover:text-green-500"><a href="{% url 'mobile' %}">Mobile</a></li>
+                    <li class="text-black hover:text-green-500"><a href="{% url 'laptop' %}">Laptop</a></li>
+                </ul>
+            </span>
+            <span class="pt-[1.3rem]  hover:underline hover:text-green-400 dropdown"><a href="#">Fashion </a> <i class="fa-solid fa-caret-down"></i>
+                <ul class="fixed z-[1000] bg-white p-[2rem] hidden">
+                    <li class="text-black hover:text-green-500"><a href="{% url 'tshirt' %}">T-shirt</a></li>
+                    <li class="text-black hover:text-green-500"><a href="{% url 'shoes' %}">Shoes</a></li>
+                </ul>
+            
+            
+            </span>
+            <span class="pt-[1.3rem]  hover:underline hover:text-green-400 2xl:pr-[8rem] dropdown"><a href="#">Vechiles</a> <i class="fa-solid fa-caret-down"></i>
+                <ul class="fixed z-[1000] bg-white p-[2rem] hidden">
+                    <li class="text-black hover:text-green-500"><a href="{% url 'car' %}">Cars</a></li>
+                    <li class="text-black hover:text-green-500"><a href="{% url 'bike' %}">Bike</a></li>
+                </ul>
+            
+            
+            </span>
+            <span class="pt-[1rem]  relative">
+                <input 
+                type="text" 
+                id="search"
+                placeholder="Search"
+                 class="border-2 border-gray-700 pr-[2rem] rounded-lg outline-2 pl-2 h-[2rem] outline-green-500 mb-2">
+                <i class="fa-solid fa-magnifying-glass absolute top-[1.5rem] right-[5px] border-l-2 border-gray-600 pl-1"></i> 
+            </span>
+            {% if request.user.is_authenticated %}
+            <span  class="pt-[1.3rem]  hover:underline hover:text-green-400 {{user_name}} dropdown">{{request.user}}<i class="fa-solid fa-caret-down"></i>
+                <ul class="absolute z-[1000] bg-white p-[2rem] hidden font-normal">
+                    <li class="text-black hover:text-green-500"><a href="{% url 'profile' %}">Profile</a></li>
+                    <li class="text-black hover:text-green-500"><a href="{% url 'order' %}">Orders</a></li>
+                    <li class="text-black hover:text-green-500"><a href="{% url 'changepass' %}">Change Password</a></li>
+                    <li class="text-black hover:text-green-500"><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+           </span>
+
+           <span  class="pt-[1.3rem]  hover:underline hover:text-green-400 {{cart}}">
+               <small class="bg-green-500 font-bold hover:text-white text-white p-2 no-underline">
+                   2
+                </small> <a href="{% url 'cart' %}">Cart</a>
+            </span>
+            {% else %}
+            <span  class="pt-[1.3rem]  hover:underline hover:text-green-400 {{login}}"><a href="{% url 'login' %}">Login</a></span>
+            <span  class="pt-[1.3rem]  hover:underline hover:text-green-400 {{registration}}"><a href="{% url 'signup' %}">Registration</a> </span>
+        </div>
+        {% endif %}
+        
+    </div>
+  
+    </nav> 
+
+    {% comment %} Nav Bar For Phone {% endcomment %}
+    <nav class="shadow-2xl xl:hidden block">
+        <div class="flex">
+        <div class="flex w-[85vw] ml-[1rem]">
+            <img src="{% static 'img/logo.jpg' %}" alt="" class="h-[2rem] w-[2rem] rounded-[50%] my-[0.5rem] inline-block">
+            <h2 class="text-2xl py-[0.5rem] inline-block">Munna Store</h2>
+            
+            
+        </div>
+        
+        <div class="flex space-x-9 justify-end mr-[3rem] h-[3rem] w-[60vw] ">
+            <i class="fa-solid fa-bars py-[1rem]" onclick="navFunc()"></i>
+        </div>
+        
+        
+    </div>
+    <div class="space-x-9 justify-end mr-[3rem] " id="phoneNav">
+        <div></div>
+        <div class="py-[.5rem] text-center"><a href="{% url 'home' %}">Home</a></div>
+        <div class="py-[.5rem] text-center"><a href="#">Electronics</a></div>
+        <div class="py-[.5rem] text-center"><a href="#">Fashion</a></div>
+        <div class="py-[.5rem] text-center"><a href="#">Mobile</a></div>
+    </div>
+  
+    </nav>
+    {% if message %}
+    {% for mess in messages %}
+    <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
+        <p class="text-center"> {{mess}}</p>
+        {% endfor %}
+        {% endif %}
+</div>
+{% block content %}
+
+
+{% endblock content %}
+
+
+{% comment %} Script Tag {% endcomment %}
+{% block script %}
+{% endblock script %}
+
+
+
+
+
+
+
+
+
+
+<footer class="bg-gray-900 text-white">
+    <div class="grid grid-cols-3">
+      <div class="text-center my-[1rem]">
+        <i class="fa-solid fa-phone"></i> <br />
+        <h1>
+          <b> Contact us:</b> <br />
+          7078177495
+        </h1>
+      </div>
+      <div class="text-center  my-[1rem]">
+        <i class="fa-regular fa-envelope"></i><br />
+        <b> My EmailId:</b> <br />
+        positive.mind123456789@gmail.com
+      </div>
+      <div class="text-center my-[1rem]">
+        <i class="fa-solid fa-location-dot"></i> <br />
+        <b>Adress</b> <br />
+        New Delhi(Meerabag)
+      </div>
+      <br />
+      <br /><br />
+     
+    </div>
+    <div class="text-center py-[1rem]">
+    <i class="fa-brands fa-square-instagram"></i>
+
+    <i class="fa-brands fa-twitter"></i>
+    
+    <i class="fa-brands fa-facebook"></i>
+  </div>
+  </footer>
+
+    <script src="{% static 'js/all.js' %}"></script>
+    <script src="{% static 'js/my.js' %}"></script>
+    
+</body>
+</html>

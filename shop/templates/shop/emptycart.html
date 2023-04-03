@@ -1,0 +1,20 @@
+{% extends 'shop/main.html' %} 
+{% load static %} 
+{% block title %} 
+Home Page 
+{%endblock title %} 
+{% block content %}
+
+<div class="my-5">
+  <h1 class="text-3xl text-center border-b-2 m-2 py-2">Shopping Cart</h1>
+  <div class="m-7 grid grid-cols-3 gap-10">
+      <div class="col-span-2">
+        {% comment %} First grid Item {% endcomment %}
+        <h2 >Your Shopping Cart is empty.</h2>
+        
+      </div>
+      </div>
+      
+      {% endblock content %}
+  
+

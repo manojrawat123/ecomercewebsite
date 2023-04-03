@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+</head>
+<body>
+    {% comment %} Nav Bar for Big Scren {% endcomment %}
+    <nav class="shadow-2xl xl:block hidden ">
+        <div class="flex mx-5"> 
+        <div class="flex">
+            <img src="{% static 'img/logo.jpg' %}" alt="" class="h-[2rem] w-[2rem] rounded-[50%] my-[0.5rem] inline-block">
+            <h2 class="text-2xl py-[0.5rem] inline-block">Munna Store</h2>
+            
+            
+        </div>
+        
+        <div class="flex space-x-9 mx-[3rem] ">
+            <span class="py-[.8rem] {{home}} hover:underline hover:text-green-400 "><a href="{% url 'home' %}">Home</a></span>
+            <span class="py-[.8rem] hover:underline hover:text-green-400 "><a href="#">Electronics 
+                
+            </a> <i class="fa-solid fa-caret-down"></i></span>
+            <span class="py-[.8rem] hover:underline hover:text-green-400 "><a href="#">Fashion </a> <i class="fa-solid fa-caret-down"></i></span>
+            <span class="py-[.8rem] hover:underline hover:text-green-400 2xl:pr-[8rem]"><a href="#">Mobile</a> <i class="fa-solid fa-caret-down"></i></span>
+            <span class="py-[.8rem] relative">
+                <input 
+                type="text" 
+                id="search"
+                placeholder="Search"
+                 class="border-2 border-gray-700 pr-[2rem] rounded-lg outline-2 pl-2 h-[2rem] outline-green-500 mb-2">
+                <i class="fa-solid fa-magnifying-glass absolute top-[1.3rem] right-[5px] border-l-2 border-gray-600 pl-1"></i> 
+            </span>
+            <span  class="py-[.8rem] hover:underline hover:text-green-400">Sonam <i class="fa-solid fa-caret-down"></i></span>
+            <span  class="py-[.8rem] hover:underline hover:text-green-400 {{cart}}">
+                <small class="bg-red-500">
+                    
+                </small> <a href="{% url 'cart' %}">Cart</a><i class="fa-solid fa-caret-down"></i>
+            </span>
+            <span  class="py-[.8rem] hover:underline hover:text-green-400 {{login}}"><a href="{% url 'login' %}">Login</a></span>
+            <span  class="py-[.8rem] hover:underline hover:text-green-400 {{registration}}"><a href="{% url 'signup' %}">Registration</a> </span>
+
+        </div>
+        
+    </div>
+  
+    </nav>
+
+    {% comment %} Nav Bar For Phone {% endcomment %}
+    <nav class="shadow-2xl xl:hidden block">
+        <div class="flex">
+        <div class="flex w-[85vw] ml-[1rem]">
+            <img src="{% static 'img/logo.jpg' %}" alt="" class="h-[2rem] w-[2rem] rounded-[50%] my-[0.5rem] inline-block">
+            <h2 class="text-2xl py-[0.5rem] inline-block">Munna Store</h2>
+            
+            
+        </div>
+        
+        <div class="flex space-x-9 justify-end mr-[3rem] h-[3rem] w-[60vw] ">
+            <i class="fa-solid fa-bars py-[1rem]" onclick="navFunc()"></i>
+        </div>
+        
+        
+    </div>
+    <div class="space-x-9 justify-end mr-[3rem] " id="phoneNav">
+        <div></div>
+        <div class="py-[.5rem] text-center"><a href="{% url 'home' %}">Home</a></div>
+        <div class="py-[.5rem] text-center"><a href="#">Electronics</a></div>
+        <div class="py-[.5rem] text-center"><a href="#">Fashion</a></div>
+        <div class="py-[.5rem] text-center"><a href="#">Mobile</a></div>
+    </div>
+  
+    </nav>
+{% block content %}{% endblock content %}
+
+    <script src="{% static 'js/all.js' %}"></script>
+    <script src="{% static 'js/my.js' %}"></script>
+    
+</body>
+</html>

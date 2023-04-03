@@ -1,0 +1,35 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+{% block title %}
+Home Page
+{% endblock title %}
+
+{% block content %}
+
+   
+<h1 class="text-3xl text-center">Mobiles</h1>
+    <div class="grid grid-cols-3 gap-10 my-5 mx-2">
+      {% for i in allitems %}
+      <div class="bg-gray-300">
+        <h1 class="text-2xl text-center">{{i.title}}</h1>
+          <img src="{{i.product_image.url}}" alt="" class="mx-auto my-3 h-[10rem]" />
+          <p class="text-center">Rs. {{i.discount_price}}</p>
+          <div class="text-center">
+            <a href="product/{{i.id}}">
+              <button 
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                View Details
+              </button>
+            </a>
+
+            <br> <br>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+      {% comment %} Fotter {% endcomment %}
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends 'shop/main.html' %}
+
+{% block title %}
+Login Page
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class="w-[60vw] mx-auto mt-[100px]">
+    <h1 class="text-2xl border-b-2 border-gray-500">Login</h1>
+    
+    <form action="" method="post" class="w-[100%] shadow-2xl pt-7">
+        {% csrf_token %}
+        <small class="text-red-500 text-center">{{forms.non_field_errors}}</small>
+       
+       
+        <div class="ml-5">
+            {% for i in forms %}
+            <label for="{{i.id_for_label}}" >{{i.label}}: <br>
+                {{i}}
+                <small class="text-red-500" >{{i.errors}}</small> <br> <br>
+            </label>
+            {% endfor %}
+            <a href="{% url 'password_reset' %}"  class="text-blue-600 underline">Forgot Password?</a>
+<br> <br>
+            <input type="submit" value="Login"  class="border border-blue-500 outline outline-transparent text-blue-700 font-semibold hover:bg-blue-500 py-2 px-4 rounded hover:text-white">
+            <br>
+            <h1 class="text-center">
+                New To Munna Store 
+                <a href="{% url 'signup' %}"  class="text-blue-600 underline">Create Account</a>
+            </h1>
+<br>
+
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

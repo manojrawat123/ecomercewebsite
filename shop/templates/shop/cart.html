@@ -1,0 +1,80 @@
+{% extends 'shop/main.html' %} 
+{% load static %} 
+{% block title %} 
+Home Page 
+{%endblock title %} 
+{% block content %}
+
+<div class="my-5">
+  <h1 class="text-3xl text-center border-b-2 m-2 py-2">Shopping Cart</h1>
+  <div class="m-7 grid grid-cols-3 gap-10">
+      <div class="col-span-2">
+        {% comment %} First grid Item {% endcomment %}
+        {% for i in cart %}
+        <div class="grid grid-cols-5 gap-1 shadow-2xl my-5 h-[auto]">
+          <img
+          src="{{i.product.product_image.url}}"
+          alt=""
+          class="h-[5rem] col-span-1 m-auto"
+          />
+          <div class="col-span-4">
+            <h1>{{i.product.title}}</h1>
+            <span class="text-sm inline-block h-[4rem]"
+            >{{i.product.description}}</span>
+            <br> <br> 
+            <span class="py-5">Quantity:
+             <a class="minus-cart" href="/minus-cart/{{i.product.id}}"><i class="fas fa-minus-square fa-lg" pid="{{i.product.id}}"></i></a>
+              {{i.quantity}} 
+              {% comment %} Plus Btn start {% endcomment %}
+               <a href="/plus-cart/{{i.product.id}}"><i class="fas fa-plus-square fa-lg"></i></a> 
+               {% comment %} Minus Btn start {% endcomment %}
+               <br></span> <br> 
+               <form action="/removeitem/{{i.product.id}}" class="inline">
+                {% csrf_token %}
+
+                <button type="submit" class="border border-blue-500 outline outline-transparent text-blue-700 font-semibold hover:bg-blue-500 py-1 px-4 rounded hover:text-white my-[1rem]">Remove Item</button>
+
+
+
+               </form>
+       
+            <span class="float-right mr-6 my-[1rem]">One Item Amount: Rs.{{i.product.discount_price}}</span>
+           
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>{% comment %} First Item End {% endcomment %}
+      {% comment %} Second Item {% endcomment %}
+     
+        
+      
+  
+
+    {% comment %} This is Placing Order items {% endcomment %}
+    <div class="col-span-1 shadow-xl shadow-blue-300 rounded h-[14rem]">
+        <div class="m-6">
+      <h1 class="text-2xl font-bold">Total Amount Of Items</h1>
+      <ul>
+        <li>
+            Amount:<span class="float-right">Rs {{amount}}</span>
+        </li>
+        <li>
+            Shipping: <span class="float-right">Rs. 70.00</span>
+        </li>
+        <hr>
+        <li class="text-xl font-semibold my-3">Total <small>(Including GST.) </small><span class="float-right">Rs. {{totalamount}}</span></li>
+      </ul>
+
+      <a href="{% url 'checkout' %}">
+        <button class="w-[100%] my-[0.5rem] border border-blue-500 outline outline-transparent text-blue-700 font-semibold hover:bg-blue-500 py-1 px-4 rounded hover:text-white">Place Order</button>
+
+      </a>
+      
+    </div>
+    </div>
+    {% comment %} end Of placing Order {% endcomment %}
+  </div>
+</div>
+
+{% endblock content %}

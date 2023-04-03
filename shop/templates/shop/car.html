@@ -1,0 +1,61 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+{% block title %}
+Mobile
+{% endblock title %}
+
+{% block content %}
+
+
+
+
+
+<div class="grid grid-cols-12">
+    <div class="col-span-3 my-[5rem]">
+    <div class="flex-col">
+        <div class="text-center my-4">
+            <a href="/car/bugati" class="border border-gray-700 px-10 py-2 block hover:bg-blue-100">Bugati</a> 
+        </div>
+        <div class="text-center my-4">
+        <a href="/car/nano" class="border border-gray-700 px-10 py-2 block hover:bg-blue-100">Nano</a>
+    </div>
+    <div class="text-center my-4">
+        <a href="/car/shelby" class="border border-gray-700 px-10 py-2 block hover:bg-blue-100">Shelby</a>
+    </div>
+    <div class="text-center my-4">
+        <a href="/car/less" class="border border-gray-700 px-10 py-2 block hover:bg-blue-100">Below 10000</a>
+    </div>
+    <div class="text-center my-4">
+        <a href="/car/above" class="border border-gray-700 px-10 py-2 block hover:bg-blue-100"> Above 10000</a>
+    </div>
+</div>
+
+    </div>
+        <div class="col-span-8 ring-offset-1 ml-[2rem]">
+            <h2 class="text-3xl text-center my-[2rem]">Cars</h2>
+            
+            <div class="grid grid-cols-12 gap-10">
+            {% for i in car %}
+            <div class="bg-gray-300 col-span-4">
+                <h1 class="text-2xl text-center">{{i.title}}</h1>
+                  <img src="{{i.product_image.url}}" alt="" class="mx-auto my-3 h-[10rem]" />
+                  <p class="text-center">Rs.{{i.discount_price}}</p>
+                  <div class="text-center">
+                    <a href="/product/{{i.id}}">
+                      <button 
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        View Details
+                      </button>
+                    </a>
+        
+                    <br> <br>
+                  </div>
+                </div>
+            
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+
+    {% endblock content %}

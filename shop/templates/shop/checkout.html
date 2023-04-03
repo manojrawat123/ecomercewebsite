@@ -1,0 +1,145 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+{% block title %}
+Buy Now
+
+{% endblock title %}
+
+
+{% block content %}
+{% comment %} First Div {% endcomment %}
+<div class="grid grid-cols-2 gap-10 my-5 mx-5">
+    
+    <div class="h-[80vh]  col-span-1 ">
+        <h1 class="text-2xl border-b-2 border-black">
+            Buy Items
+        </h1>
+        {% for i in cart %}
+        <div class="grid grid-cols-5 gap-1 shadow-2xl my-5 h-[auto]">
+          <img
+          src="{{i.product.product_image.url}}"
+          alt=""
+          class="h-[5rem] col-span-1 m-auto"
+          />
+          <div class="col-span-4">
+            <h1>{{i.product.title}}</h1>
+            <span class="text-sm inline-block h-[4rem]"
+            >{{i.product.description}}</span>
+            <br> <br> 
+            <span class="py-5">Quantity:
+              {{i.quantity}} 
+              
+               <br></span> <br> 
+            <span class="float-right mr-6 my-[1rem]">One Item Amount: Rs.{{i.product.discount_price}}</span>
+           
+          </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    
+    
+    
+    {% comment %} Second Div {% endcomment %}
+    
+    <div class="col-span-1">
+        <h1 class="text-2xl border-b-2 border-black">Shipping Adress</h1>  
+        
+        <div class="shadow-2xl">
+            {% for i in address %}
+            <div class="px-[1rem]">
+                <h2 class="font-semibold">
+                    {{i.name}}
+                </h2>
+                <span>{{i.city}} ({{i.locality}})</span> <br>
+                <span> <input type="radio" name="adress" id=""> Adress {{forloop.counter}}</span> <br>
+            </div>
+            {% endfor %}
+            <div class="px-[1rem]">
+
+            <h2 class="text-xl"> Total Amount. {{totalamount}}   </h2>
+            <br>
+           
+            <form action="/payment/{{id}}" method="post">
+                {% csrf_token %}
+                <button 
+                type="submit"
+                class="w-[100%] border border-blue-500 outline outline-transparent text-blue-700 font-semibold hover:bg-blue-500 py-2 px-4 rounded hover:text-white my-[1rem]">
+               Cash On Delivery/ Pay On Delivery
+            </button>
+            
+        </form>
+        
+        <div id="paypal-button-container"></div>
+
+        <!-- Include the PayPal JavaScript SDK -->
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+    
+        <script>
+            // Render the PayPal button into #paypal-button-container
+            paypal.Buttons({
+    
+                // Call your server to set up the transaction
+                createOrder: function(data, actions) {
+                    return fetch('/demo/checkout/api/paypal/order/create/', {
+                        method: 'post'
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function(orderData) {
+                        return orderData.id;
+                    });
+                },
+    
+                // Call your server to finalize the transaction
+                onApprove: function(data, actions) {
+                    return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
+                        method: 'post'
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function(orderData) {
+                        // Three cases to handle:
+                        //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                        //   (2) Other non-recoverable errors -> Show a failure message
+                        //   (3) Successful transaction -> Show confirmation or thank you
+    
+                        // This example reads a v2/checkout/orders capture response, propagated from the server
+                        // You could use a different API or structure for your 'orderData'
+                        var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+    
+                        if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                            return actions.restart(); // Recoverable state, per:
+                            // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                        }
+    
+                        if (errorDetail) {
+                            var msg = 'Sorry, your transaction could not be processed.';
+                            if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                            if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                            return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+                        }
+    
+                        // Successful capture! For demo purposes:
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        var transaction = orderData.purchase_units[0].payments.captures[0];
+                        alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+    
+                        // Replace the above to show a success message within this page, e.g.
+                        // const element = document.getElementById('paypal-button-container');
+                        // element.innerHTML = '';
+                        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                        // Or go to another URL:  actions.redirect('thank_you.html');
+                    });
+                }
+    
+            }).render('#paypal-button-container');
+        </script>
+            
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
